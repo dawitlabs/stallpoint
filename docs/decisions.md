@@ -19,3 +19,15 @@ Fixed one-minute windows per project in an `ingest_windows` table, upserted insi
 ## 2026-11-19: Sign-in is Google and GitHub only
 
 Dawit's call. No passwords means no reset or verification emails, so no Resend in v0.1.
+
+## 2026-11-19: Region is Frankfurt
+
+Vercel functions run in `fra1` and Neon in AWS `eu-central-1`, so they sit next to each other. Closer to Europe, Africa and the Middle East, and simpler for EU privacy rules. Dawit's call.
+
+## 2026-11-19: Local development uses Postgres in Docker
+
+Dawit chose a local Postgres 17 container over a Neon dev branch. Production and previews use Neon through the Vercel integration.
+
+## 2026-11-19: MIT license
+
+The repo is public. MIT lets anyone use and change the code with credit.

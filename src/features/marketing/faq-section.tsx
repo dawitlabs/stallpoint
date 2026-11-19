@@ -21,7 +21,7 @@ const FAQ = [
   {
     question: "Where is my data stored?",
     answer:
-      "In a Postgres database hosted by Neon in the US (AWS us-east-1). Events are encrypted in transit and at rest, and never sold or shared.",
+      "In a Postgres database hosted by Neon in Frankfurt, Germany (AWS eu-central-1). Events are encrypted in transit and at rest, and never sold or shared.",
   },
   {
     question: "Can I delete my data?",
