@@ -31,6 +31,55 @@ function TileCopy({ title, body }: { title: string; body: string }) {
   );
 }
 
+function FunnelsTile() {
+  return (
+    <Reveal className={`${TILE} md:col-span-4`}>
+      <TileCopy
+        title="Funnels"
+        body="Pick two to five events. See how many visitors reach each one, in order, and where the biggest drop is."
+      />
+      <svg viewBox="0 0 600 180" className="h-auto w-full" aria-hidden="true">
+        <g fill="none" strokeWidth="3" className="stroke-drop">
+          <path d="M10 90 C 160 90, 200 30, 590 30" />
+          <path d="M10 90 C 160 90, 220 70, 590 70" />
+          <path d="M10 90 C 160 90, 220 140, 590 140" />
+        </g>
+        <path
+          d="M10 90 C 180 90, 240 120, 400 120 S 520 170, 590 172"
+          fill="none"
+          strokeWidth="5"
+          className="stroke-lime"
+        />
+        <circle cx="10" cy="90" r="6" className="fill-paper" />
+        <circle cx="400" cy="120" r="6" className="fill-lime" />
+      </svg>
+    </Reveal>
+  );
+}
+
+function LiveStreamTile() {
+  return (
+    <Reveal className={`${TILE} md:col-span-2`}>
+      <TileCopy
+        title="Live event stream"
+        body="Events show up seconds after they happen. Good for checking an install."
+      />
+      <ol aria-label="Example events" className="grid gap-2 font-mono text-xs">
+        {EXAMPLE_EVENTS.map((event) => (
+          <li
+            key={event.time}
+            className="grid grid-cols-[auto_1fr_auto] gap-3 rounded-md bg-panel-2 px-2.5 py-2"
+          >
+            <time className="text-faint">{event.time}</time>
+            <span className="truncate">{event.name}</span>
+            <span className="text-muted">{event.detail}</span>
+          </li>
+        ))}
+      </ol>
+    </Reveal>
+  );
+}
+
 export function ProductSection() {
   return (
     <section
@@ -53,53 +102,9 @@ export function ProductSection() {
         </Reveal>
 
         <div className="grid gap-3 md:grid-cols-6">
-          <Reveal className={`${TILE} md:col-span-4`}>
-            <TileCopy
-              title="Funnels"
-              body="Pick two to five events. See how many visitors reach each one, in order, and where the biggest drop is."
-            />
-            <svg
-              viewBox="0 0 600 180"
-              className="h-auto w-full"
-              aria-hidden="true"
-            >
-              <g fill="none" strokeWidth="3" className="stroke-drop">
-                <path d="M10 90 C 160 90, 200 30, 590 30" />
-                <path d="M10 90 C 160 90, 220 70, 590 70" />
-                <path d="M10 90 C 160 90, 220 140, 590 140" />
-              </g>
-              <path
-                d="M10 90 C 180 90, 240 120, 400 120 S 520 170, 590 172"
-                fill="none"
-                strokeWidth="5"
-                className="stroke-lime"
-              />
-              <circle cx="10" cy="90" r="6" className="fill-paper" />
-              <circle cx="400" cy="120" r="6" className="fill-lime" />
-            </svg>
-          </Reveal>
+          <FunnelsTile />
 
-          <Reveal className={`${TILE} md:col-span-2`}>
-            <TileCopy
-              title="Live event stream"
-              body="Events show up seconds after they happen. Good for checking an install."
-            />
-            <ol
-              aria-label="Example events"
-              className="grid gap-2 font-mono text-xs"
-            >
-              {EXAMPLE_EVENTS.map((event) => (
-                <li
-                  key={event.time}
-                  className="grid grid-cols-[auto_1fr_auto] gap-3 rounded-md bg-panel-2 px-2.5 py-2"
-                >
-                  <time className="text-faint">{event.time}</time>
-                  <span className="truncate">{event.name}</span>
-                  <span className="text-muted">{event.detail}</span>
-                </li>
-              ))}
-            </ol>
-          </Reveal>
+          <LiveStreamTile />
 
           <Reveal className={`${TILE} md:col-span-2`}>
             <TileCopy

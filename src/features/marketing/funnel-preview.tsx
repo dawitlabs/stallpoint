@@ -1,18 +1,12 @@
-import type { StyleWithVars } from "@/lib/css-vars";
+import { buildFunnelSteps, FunnelBars } from "@/components/funnel-bars";
 
-const EXAMPLE_TOTAL = 18_402;
-
-const EXAMPLE_STEPS = [
-  { name: "Started trial", value: 100 },
-  { name: "Created project", value: 72 },
-  { name: "Opened settings", value: 41, isBiggestDrop: true },
-  { name: "Connected data", value: 38 },
-  { name: "Upgraded to paid", value: 19 },
-] as const;
-
-function formatCount(percent: number): string {
-  return Math.round((EXAMPLE_TOTAL * percent) / 100).toLocaleString("en-US");
-}
+const EXAMPLE_STEPS = buildFunnelSteps([
+  { label: "Started trial", count: 18_402 },
+  { label: "Created project", count: 13_249 },
+  { label: "Opened settings", count: 7_545 },
+  { label: "Connected data", count: 6_993 },
+  { label: "Upgraded to paid", count: 3_496 },
+]);
 
 export function FunnelPreview() {
   return (
@@ -57,51 +51,9 @@ export function FunnelPreview() {
           </div>
         </div>
 
-        <ol className="mt-6 grid gap-[18px] sm:mt-7 sm:grid-cols-5 sm:gap-0">
-          {EXAMPLE_STEPS.map((step, index) => {
-            const previous =
-              index === 0 ? step.value : EXAMPLE_STEPS[index - 1].value;
-            const conversion = Math.round((step.value / previous) * 100);
-            const isBiggestDrop = "isBiggestDrop" in step;
-            const barVars: StyleWithVars = {
-              "--pct": step.value,
-              "--prev": previous,
-              "--i": index,
-            };
-            return (
-              <li
-                key={step.name}
-                style={barVars}
-                className="relative grid min-w-0 gap-2 sm:grid-rows-[200px_auto] sm:gap-3.5 sm:px-3 sm:first:pl-0 sm:last:pr-0"
-              >
-                <div className="relative order-2 h-3 overflow-hidden rounded-full bg-panel-2 sm:order-none sm:h-auto sm:rounded-[10px]">
-                  <span
-                    className={`absolute inset-y-0 left-[calc(var(--pct)*1%)] w-[calc((var(--prev)-var(--pct))*1%)] sm:inset-x-0 sm:top-auto sm:bottom-[calc(var(--pct)*1%)] sm:left-0 sm:h-[calc((var(--prev)-var(--pct))*1%)] sm:w-auto ${isBiggestDrop ? "hatch-alert" : "hatch"}`}
-                  />
-                  <span className="absolute inset-y-0 left-0 w-[calc(var(--pct)*1%)] origin-left animate-[grow-x_900ms_var(--ease-expo)_both] rounded-full bg-lime [animation-delay:calc(500ms+var(--i)*90ms)] sm:inset-x-0 sm:top-auto sm:bottom-0 sm:h-[calc(var(--pct)*1%)] sm:w-auto sm:origin-bottom sm:animate-[grow-y_900ms_var(--ease-expo)_both] sm:rounded-t-lg sm:rounded-b-none" />
-                </div>
-                <div className="order-1 flex min-w-0 items-baseline gap-2.5 sm:order-none sm:block">
-                  <span className="flex-1 truncate font-mono text-[11px] tracking-[0.04em] text-faint uppercase sm:block">
-                    {step.name}
-                  </span>
-                  {index > 0 ? (
-                    <span
-                      className={`rounded-full border bg-panel px-1.5 py-0.5 font-mono text-[10px] whitespace-nowrap sm:absolute sm:top-6 sm:left-0 sm:z-10 sm:-translate-x-1/2 sm:text-[11px] ${isBiggestDrop ? "border-alert/60 text-alert" : "border-line text-muted"}`}
-                    >
-                      → {conversion}%
-                    </span>
-                  ) : null}
-                  <span className="order-3 text-lg font-semibold tracking-[-0.03em] tabular-nums sm:mt-1.5 sm:block sm:text-[28px]">
-                    {step.value}%
-                  </span>
-                  <span className="hidden font-mono text-xs text-faint sm:mt-0.5 sm:block">
-                    {formatCount(step.value)} trials
-                  </span>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
+        <div className="mt-6 sm:mt-7">
+          <FunnelBars steps={EXAMPLE_STEPS} unit="trials" />
+        </div>
 
         <p className="mt-6 flex items-start gap-2.5 border-t border-line pt-3 pb-5 text-[13px] text-muted sm:items-center sm:text-sm">
           <span
