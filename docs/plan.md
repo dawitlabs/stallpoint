@@ -36,3 +36,19 @@ The landing page itself loads `sdk.js` with a Stallpoint project key, and that p
 7. Funnels
 8. Settings and deletion
 9. Deploy to Vercel, OAuth callback URLs, dogfood the script on the landing page
+
+## Status, 2026-11-19
+
+Done and verified locally (production build, Playwright at 1440 px and 390 px, no console or server errors):
+
+- Steps 1 to 8: landing page, schema and migration (with tested rollback), auth wiring, projects and write keys, intake API, `sdk.js`, live events, funnels, settings, account deletion.
+- Intake: success, unknown key (401), bad JSON (400), invalid batch (400), oversized body (413), CORS preflight, rate limit (429 once a minute passes 1,200 events).
+- SDK in a real browser: auto page view, query strings stripped, `identify`, SPA `pushState` page views, `sendBeacon` on tab close.
+- Security: signed out → `/dashboard` redirects, events API 401; another user → events API 404, project page shows not-found.
+- Repo public at https://github.com/dawitlabs/stallpoint (`main`).
+
+Not done yet:
+
+- Real Google and GitHub sign-in: needs Dawit's OAuth credentials in `.env.local` and on Vercel.
+- Step 9: Vercel project on the `dawit` team, Neon through the Vercel integration (needs Dawit to accept Neon's terms), env vars, OAuth callback URLs, dogfooding `sdk.js` on the landing page.
+- Sentry: needs a DSN from Dawit.
