@@ -5,6 +5,7 @@ import {
   type FunnelBarStep,
   FunnelBars,
 } from "@/components/funnel-bars";
+import { plural } from "@/lib/plural";
 import { SITE } from "@/lib/site";
 import { deleteFunnelAction } from "./actions";
 import { computeFunnelCounts } from "./compute";
@@ -79,7 +80,7 @@ function BiggestDropNote({ steps }: { steps: FunnelBarStep[] }) {
       />
       <span>
         <strong className="font-semibold text-alert">Biggest drop:</strong>{" "}
-        {(before.count - after.count).toLocaleString("en-US")} visitors reach{" "}
+        {plural(before.count - after.count, "visitor")} reach{" "}
         <code className="font-mono text-paper">{before.label}</code> but never{" "}
         <code className="font-mono text-paper">{after.label}</code>.
       </span>
@@ -154,8 +155,8 @@ export async function FunnelReport({
             {funnel.name}
           </h2>
           <p className="mt-1 font-mono text-xs text-faint">
-            {first.toLocaleString("en-US")} visitors · {overall}% overall ·
-            finish within {windowLabel(funnel.windowHours)}
+            {plural(first, "visitor")} · {overall}% overall · finish within{" "}
+            {windowLabel(funnel.windowHours)}
           </p>
         </div>
         <RangeNav
@@ -171,7 +172,7 @@ export async function FunnelReport({
           />
         ) : (
           <>
-            <FunnelBars steps={steps} unit="visitors" />
+            <FunnelBars steps={steps} unit="visitor" />
             <BiggestDropNote steps={steps} />
           </>
         )}

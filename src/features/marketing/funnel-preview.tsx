@@ -52,7 +52,7 @@ export function FunnelPreview() {
         </div>
 
         <div className="mt-6 sm:mt-7">
-          <FunnelBars steps={EXAMPLE_STEPS} unit="trials" />
+          <FunnelBars steps={EXAMPLE_STEPS} unit="trial" />
         </div>
 
         <p className="mt-6 flex items-start gap-2.5 border-t border-line pt-3 pb-5 text-[13px] text-muted sm:items-center sm:text-sm">

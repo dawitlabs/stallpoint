@@ -1,4 +1,5 @@
 import type { StyleWithVars } from "@/lib/css-vars";
+import { plural } from "@/lib/plural";
 
 export type FunnelBarStep = {
   label: string;
@@ -61,7 +62,7 @@ export function FunnelBars({
                 {step.percentOfFirst}%
               </span>
               <span className="hidden font-mono text-xs text-faint sm:mt-0.5 sm:block">
-                {step.count.toLocaleString("en-US")} {unit}
+                {plural(step.count, unit)}
               </span>
             </div>
           </li>

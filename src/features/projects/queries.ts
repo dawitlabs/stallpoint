@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { z } from "zod";
 import { db } from "@/db";
-import { events, projects } from "@/db/schema";
+import { projects } from "@/db/schema";
 import { requireUser } from "@/features/auth/require-user";
 
 export type ProjectSummary = {
@@ -31,9 +31,9 @@ export async function listMyProjects(): Promise<ProjectSummary[]> {
       name: projects.name,
       createdAt: projects.createdAt,
       eventsLastDay: sql<number>`(
-        select count(*)::int from ${events}
-        where ${events.projectId} = ${projects.id}
-          and ${events.receivedAt} > now() - interval '1 day'
+        select count(*)::int from "events" recent
+        where recent."project_id" = "projects"."id"
+          and recent."received_at" > now() - interval '1 day'
       )`,
     })
     .from(projects)
