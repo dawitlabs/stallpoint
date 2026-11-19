@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS "events";
+DROP TABLE IF EXISTS "funnels";
+DROP TABLE IF EXISTS "ingest_windows";
+DROP TABLE IF EXISTS "projects";
+DROP TABLE IF EXISTS "session";
+DROP TABLE IF EXISTS "account";
+DROP TABLE IF EXISTS "verification";
+DROP TABLE IF EXISTS "rate_limit";
+DROP TABLE IF EXISTS "user";
+DELETE FROM "drizzle"."__drizzle_migrations" WHERE "created_at" = 1795104416708;

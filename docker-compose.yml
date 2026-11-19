@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: stallpoint-postgres
+    environment:
+      POSTGRES_USER: stallpoint
+      POSTGRES_PASSWORD: stallpoint
+      POSTGRES_DB: stallpoint
+    ports:
+      - "127.0.0.1:55433:5432"
+    volumes:
+      - stallpoint-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stallpoint"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  stallpoint-pgdata:
