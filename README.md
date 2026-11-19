@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stallpoint
 
-## Getting Started
+Open-source product analytics that shows the step where users stall.
 
-First, run the development server:
+Paste one script tag, send events, build a funnel, and see where visitors drop off. Public beta.
+
+## What it does
+
+- **Tracking script** (`public/sdk.js`): automatic page views, `stallpoint.track(name, props)`, `stallpoint.identify(id)`. Sends paths without query strings and referrers as origin only.
+- **Event intake** (`POST /api/v1/events`): validated, size-limited, rate-limited per project.
+- **Live events**: the latest events for a project, refreshed every few seconds.
+- **Funnels**: two to five steps, computed in one SQL query with a conversion window.
+- **Deletion**: delete a project and its events, or your whole account.
+
+## Stack
+
+Next.js 16 (App Router, Cache Components), Postgres via Drizzle, Better Auth (Google and GitHub), Tailwind CSS v4, Biome, pnpm. Deployed on Vercel with Neon.
+
+## Run it locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+docker compose up -d
+cp .env.example .env.local
+pnpm db:migrate
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app runs on http://localhost:3100. Postgres listens on 127.0.0.1:55433.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Sign-in needs at least one OAuth app:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Provider | Callback URL |
+|---|---|
+| Google | `http://localhost:3100/api/auth/callback/google` |
+| GitHub | `http://localhost:3100/api/auth/callback/github` |
 
-## Learn More
+Put the client ID and secret in `.env.local`.
 
-To learn more about Next.js, take a look at the following resources:
+## Install on a site
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```html
+<script defer src="https://YOUR-STALLPOINT-HOST/sdk.js" data-key="YOUR_WRITE_KEY"></script>
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```js
+stallpoint.track("signup_completed", { plan: "free" });
+stallpoint.identify("user_8127");
+```
 
-## Deploy on Vercel
+## Docs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `docs/plan.md`: v0.1 scope
+- `docs/decisions.md`: why things are the way they are
+- `docs/gotchas.md`: traps for anyone changing the code
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT
